@@ -1,1 +1,1 @@
-FROM gitpod/workspace-dotnet-7
+FROM gitpod/workspace-dotnet-8
