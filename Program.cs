@@ -18,7 +18,9 @@ namespace dotnetcore
             //DuckbearMore();
             //KingChallenge();
             //DefenseChallenge();
-            WatchTower();
+            //WatchTower();
+            //RepairClockTower();
+            BuyInventory();
         }
 
         static float PythagCalc(float height, float length)
@@ -188,7 +190,7 @@ namespace dotnetcore
             bool isValid = true;
             string attackDirection;
 
-            while(isValid)
+            while (isValid)
             {
                 Console.Write("What are the X-coordinates? ");
                 int xCoord = Convert.ToInt32(Console.ReadLine());
@@ -197,18 +199,20 @@ namespace dotnetcore
 
                 // Find the direction the enemy is coming from
 
-                if (xCoord == 0 && yCoord == 0) {
+                if (xCoord == 0 && yCoord == 0)
+                {
                     attackDirection = "here";
                 }
-                else 
+                else
                 {
                     char xDir = xCoord < 0 ? 'W' : (xCoord > 0 ? 'E' : '\0');
                     char yDir = yCoord < 0 ? 'S' : (yCoord > 0 ? 'N' : '\0');
 
-                    if (xDir == '\0') {
+                    if (xDir == '\0')
+                    {
                         attackDirection = $"{yDir}";
                     }
-                    else if(yDir == '\0')
+                    else if (yDir == '\0')
                     {
                         attackDirection = $"{xDir}";
                     }
@@ -222,20 +226,20 @@ namespace dotnetcore
                 {
                     Console.WriteLine("The enemy is here!");
                 }
-                else 
+                else
                 {
                     Console.WriteLine($"The enemy is to the {attackDirection}.");
                 }
 
                 Console.Write("Do you want to determine the location of another enemy? (Y or N) ");
                 string response = Console.ReadLine();
-                if( response != null && response.Length == 1)
+                if (response != null && response.Length == 1)
                 {
                     response = response.ToUpper();
                     isValid = response.StartsWith('Y') == true;
 
                 }
-                else 
+                else
                 {
                     Console.WriteLine("You did not provide a valid response.");
                     isValid = false;
@@ -243,6 +247,56 @@ namespace dotnetcore
 
             }
             Console.WriteLine("Thanks for defending our city.");
+        }
+
+        static void RepairClockTower()
+        {
+            Console.WriteLine("Please enter a number.");
+            int number = int.Parse(Console.ReadLine());
+            if (number % 2 == 0)
+            {
+                Console.WriteLine("Tick");
+            }
+            else
+            {
+                Console.WriteLine("Tock");
+            }
+        }
+
+        static void BuyInventory()
+        {
+            Console.WriteLine("The following items are available for purchase:");
+            Console.WriteLine("1. Rope");
+            Console.WriteLine("2. Torches");
+            Console.WriteLine("3. Climbing Equipment");
+            Console.WriteLine("4. Clean Water");
+            Console.WriteLine("5. Machete");
+            Console.WriteLine("6. Canoe");
+            Console.WriteLine("7. Food Rations");
+            Console.Write("What item do you want to see the price of? Enter the number of the item: ");
+
+            int itemNumber = int.Parse(Console.ReadLine());
+            float discount = 1.0f - 0.62f;
+
+            string response;
+
+            response = itemNumber switch
+            {
+                1 => $"Rope cost {Math.Round((10 * discount))} gold",
+                2 => $"Torches cost {Math.Round((15 * discount))} gold",
+                3 => $"Climbing Equipment cost {Math.Round((25 * discount))} gold",
+                4 => $"Clean Water cost {Math.Round((1 * discount))} gold",
+                5 => $"Machete cost {Math.Round((20 * discount))} gold",
+                6 => $"Canoe cost {Math.Round((200 * discount))} gold",
+                7 => "Food Rations cost " + 1 + " gold",
+                _ => "Invalid item number",
+            };
+
+            /*
+            float result = (MathF.Round(1f * discount)) <= 0 ? 1 : Math.Round(1 * discount);
+            Console.WriteLine(response);
+            */
+
         }
     }
 }
