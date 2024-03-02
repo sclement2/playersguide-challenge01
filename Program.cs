@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Tracing;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 
 namespace dotnetcore
 {
@@ -13,7 +17,8 @@ namespace dotnetcore
             //ChallengeDuckbear();
             //DuckbearMore();
             //KingChallenge();
-            DefenseChallenge();
+            //DefenseChallenge();
+            WatchTower();
         }
 
         static float PythagCalc(float height, float length)
@@ -176,6 +181,68 @@ namespace dotnetcore
                 }
 
             }
+        }
+
+        static void WatchTower()
+        {
+            bool isValid = true;
+            string attackDirection;
+
+            while(isValid)
+            {
+                Console.Write("What are the X-coordinates? ");
+                int xCoord = Convert.ToInt32(Console.ReadLine());
+                Console.Write("What are the Y-coordinates? ");
+                int yCoord = Convert.ToInt32(Console.ReadLine());
+
+                // Find the direction the enemy is coming from
+
+                if (xCoord == 0 && yCoord == 0) {
+                    attackDirection = "here";
+                }
+                else 
+                {
+                    char xDir = xCoord < 0 ? 'W' : (xCoord > 0 ? 'E' : '\0');
+                    char yDir = yCoord < 0 ? 'S' : (yCoord > 0 ? 'N' : '\0');
+
+                    if (xDir == '\0') {
+                        attackDirection = $"{yDir}";
+                    }
+                    else if(yDir == '\0')
+                    {
+                        attackDirection = $"{xDir}";
+                    }
+                    else
+                    {
+                        attackDirection = $"{yDir}{xDir}";
+                    }
+                }
+
+                if (attackDirection == "here")
+                {
+                    Console.WriteLine("The enemy is here!");
+                }
+                else 
+                {
+                    Console.WriteLine($"The enemy is to the {attackDirection}.");
+                }
+
+                Console.Write("Do you want to determine the location of another enemy? (Y or N) ");
+                string response = Console.ReadLine();
+                if( response != null && response.Length == 1)
+                {
+                    response = response.ToUpper();
+                    isValid = response.StartsWith('Y') == true;
+
+                }
+                else 
+                {
+                    Console.WriteLine("You did not provide a valid response.");
+                    isValid = false;
+                }
+
+            }
+            Console.WriteLine("Thanks for defending our city.");
         }
     }
 }
