@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Tracing;
+using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -24,7 +25,8 @@ namespace dotnetcore
             //DefenseChallenge();
             //WatchTower();
             //RepairClockTower();
-            BuyInventory();
+            //BuyInventory();
+            Prototype();
         }
 
         static float PythagCalc(float height, float length)
@@ -276,7 +278,7 @@ namespace dotnetcore
             float discount = 1.0f;
             string welcome = $"Nice to meet you {name}.";
 
-            if(string.Equals(name, "Scott", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(name, "Scott", StringComparison.OrdinalIgnoreCase))
             {
                 // Program creator receives a discount on the prices
                 discount = 1.0f - 0.5f;
@@ -310,6 +312,67 @@ namespace dotnetcore
             Console.WriteLine(response);
 
 
+        }
+
+        static void Prototype()
+        {
+            bool playAgain = true;
+            while (playAgain)
+            {
+                Console.WriteLine("User1, please enter a number between 0 and 100.");
+                if (int.TryParse(Console.ReadLine(), out int result))
+                {
+                    if (result >= 0 && result <= 100)
+                    {
+                        Console.WriteLine($"You entered {result}");
+                        Console.Clear();
+                        GuessNumber(result);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid response. Your number was not between 0 and 100.");
+                        continue;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("You entered an invalid response. Program is exiting.");
+                    playAgain = false;
+                }
+            }
+        }
+
+        static void GuessNumber(int pilotInput)
+        {
+            bool isValid = true;
+            Console.WriteLine("User2, you need to guess User1's number");
+            while(isValid)
+            {
+                Console.Write("What is your next guess? ");
+                if (int.TryParse(Console.ReadLine(), out int user2Guess))
+                {
+                    if (user2Guess < pilotInput)
+                    {
+                        Console.WriteLine($"{user2Guess} is too low.");
+                        continue;
+                    }
+                    else if (user2Guess > pilotInput)
+                    {
+                        Console.WriteLine($"{user2Guess} is too high.");
+                        continue;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"You guessed right! {user2Guess} is the number.");
+                        isValid = false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("You entered an invalid response. Program is restarting.");
+                    isValid = false;
+                }
+            }
         }
     }
 }
