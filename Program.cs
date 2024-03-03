@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Tracing;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks.Sources;
+using System.Windows.Markup;
 
 namespace dotnetcore
 {
@@ -265,6 +269,21 @@ namespace dotnetcore
 
         static void BuyInventory()
         {
+            Console.WriteLine("Welcome to Tortuga's Supply Store.");
+            Console.Write("Who do I have the pleasure of talking to? ");
+            string name = Console.ReadLine();
+
+            float discount = 1.0f;
+            string welcome = $"Nice to meet you {name}.";
+
+            if(string.Equals(name, "Scott", StringComparison.OrdinalIgnoreCase))
+            {
+                // Program creator receives a discount on the prices
+                discount = 1.0f - 0.5f;
+                welcome = $"Glad to see you again {name}.";
+            }
+
+            Console.WriteLine($"{welcome}\n");
             Console.WriteLine("The following items are available for purchase:");
             Console.WriteLine("1. Rope");
             Console.WriteLine("2. Torches");
@@ -276,26 +295,20 @@ namespace dotnetcore
             Console.Write("What item do you want to see the price of? Enter the number of the item: ");
 
             int itemNumber = int.Parse(Console.ReadLine());
-            float discount = 1.0f - 0.62f;
-
-            string response;
-
-            response = itemNumber switch
+            string response = itemNumber switch
             {
-                1 => $"Rope cost {Math.Round((10 * discount))} gold",
-                2 => $"Torches cost {Math.Round((15 * discount))} gold",
-                3 => $"Climbing Equipment cost {Math.Round((25 * discount))} gold",
-                4 => $"Clean Water cost {Math.Round((1 * discount))} gold",
-                5 => $"Machete cost {Math.Round((20 * discount))} gold",
-                6 => $"Canoe cost {Math.Round((200 * discount))} gold",
-                7 => "Food Rations cost " + 1 + " gold",
+                1 => $"Rope cost {(Math.Round(10 * discount) <= 0 ? 1 : Math.Round(10 * discount))} gold",
+                2 => $"Torches cost {(Math.Round(15 * discount) <= 0 ? 1 : Math.Round(15 * discount))} gold",
+                3 => $"Climbing Equipment cost {(Math.Round(25 * discount) <= 0 ? 1 : Math.Round(25 * discount))} gold",
+                4 => $"Clean Water cost {(Math.Round(1 * discount) <= 0 ? 1 : Math.Round(1 * discount))} gold",
+                5 => $"Machete cost {(Math.Round(20 * discount) <= 0 ? 1 : Math.Round(20 * discount))} gold",
+                6 => $"Canoe cost {(Math.Round(200 * discount) <= 0 ? 1 : Math.Round(200 * discount))} gold",
+                7 => $"Food Rations cost {(Math.Round(1 * discount) <= 0 ? 1 : Math.Round(1 * discount))} gold",
                 _ => "Invalid item number",
             };
 
-            /*
-            float result = (MathF.Round(1f * discount)) <= 0 ? 1 : Math.Round(1 * discount);
             Console.WriteLine(response);
-            */
+
 
         }
     }
