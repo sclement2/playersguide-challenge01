@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Tracing;
-using System.Net;
-using System.Net.Http;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks.Sources;
-using System.Windows.Markup;
+using Microsoft.Extensions.Configuration;
 
 namespace dotnetcore
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             //Console.WriteLine("Hello World!");
