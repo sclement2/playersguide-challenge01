@@ -26,7 +26,8 @@ namespace dotnetcore
             //WatchTower();
             //RepairClockTower();
             //BuyInventory();
-            Prototype();
+            //Prototype();
+            MagicCannon();
         }
 
         static float PythagCalc(float height, float length)
@@ -383,6 +384,49 @@ namespace dotnetcore
                 {
                     Console.WriteLine("You entered an invalid response. Program is restarting.");
                     return -2; // error, restart the game
+                }
+            }
+        }
+
+        static void MagicCannon()
+        {
+            const int MaxNumber = 100;
+            const int DivideByThree = 3;
+            const int DivideByFive = 5;
+
+            const string FireText = "Fire";
+            const string ElectricText = "Electric";
+            const string ElectricAndFireText = "Electric and Fire";
+            const string NormalText = "Normal";
+
+            const ConsoleColor NormalColor = ConsoleColor.White;
+            const ConsoleColor FireColor = ConsoleColor.Red;
+            const ConsoleColor ElectricColor = ConsoleColor.Blue;
+            const ConsoleColor ElectricAndFireColor = ConsoleColor.Yellow;
+
+            for (int number = 1; number <= MaxNumber; number++)
+            {
+
+                Console.ForegroundColor = NormalColor;
+                Console.Write($"{number}: ");
+                if (number % DivideByThree == 0 && number % DivideByFive == 0)
+                {
+                    Console.ForegroundColor = ElectricAndFireColor;
+                    Console.WriteLine(ElectricAndFireText);
+                }
+                else if (number % DivideByThree == 0)
+                {
+                    Console.ForegroundColor = FireColor;
+                    Console.WriteLine(FireText);
+                }
+                else if (number % DivideByFive == 0)
+                {
+                    Console.ForegroundColor = ElectricColor;
+                    Console.WriteLine(ElectricText);
+                }
+                else{
+                    Console.ForegroundColor = NormalColor;
+                    Console.WriteLine(NormalText);
                 }
             }
         }
