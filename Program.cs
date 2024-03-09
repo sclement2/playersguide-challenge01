@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Tracing;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks.Sources;
@@ -27,7 +28,9 @@ namespace dotnetcore
             //RepairClockTower();
             //BuyInventory();
             //Prototype();
-            MagicCannon();
+            //MagicCannon();
+            //ArrayChallenge1();
+            ArrayChallenge2();
         }
 
         static float PythagCalc(float height, float length)
@@ -429,6 +432,80 @@ namespace dotnetcore
                     Console.WriteLine(NormalText);
                 }
             }
+        }
+
+        static void ArrayChallenge1()
+        {
+            int originalArrayLength = 5;
+            int[] originalArray = new int[originalArrayLength];
+            int[] newArray = new int[originalArray.Length];
+
+            Console.WriteLine($"Please provide {originalArray.Length} integer values.");
+            for (int index = 0; index < originalArray.Length; index++ )
+            {
+                Console.Write($"{index + 1}: ");
+                if(int.TryParse(Console.ReadLine(), out int number))
+                {
+                    originalArray[index] = number;
+                }    
+                else
+                {
+                    Console.WriteLine("Invalid entry. Exiting program.");
+                    return;
+                }
+            }
+
+            Console.WriteLine("You entered the following values:");
+            for (int index = 0; index < originalArray.Length; index++)
+            {
+                Console.WriteLine(originalArray[index]);
+            }
+
+             Console.WriteLine("Copying your original array into a new array...");
+             for  (int index = 0; index < originalArray.Length; index++)
+             {
+                newArray[index] = originalArray[index];
+             }
+
+             Console.WriteLine("Here's the contents of both arrays...");
+             for (int index = 0; index < originalArray.Length; index++)
+             {
+                Console.Write($"({index + 1}) Original array value: {originalArray[index]} - ");
+                Console.Write($"New array value: {newArray[index]}\n");
+             }
+        }
+
+        static void ArrayChallenge2()
+        {
+            int[] array = new int[] {4, 51, -7, 13, -99, 15, -8, 45, 90};
+
+            Console.Write("Given the following array: { ");
+            for (int index = 0; index < array.Length; index++)
+            {
+                if(index < array.Length - 1)
+                {
+                    Console.Write($"{array[index]}, ");
+                }
+                else
+                {
+                    Console.Write(array[index] +  " }\n");
+                }
+            }
+            int currentSmallest = int.MaxValue;
+            foreach(int value in array)
+            {
+                if (value < currentSmallest)
+                    currentSmallest = value;
+            }
+
+            Console.WriteLine($"Smallest value in the array: {currentSmallest}");
+
+            int total = 0;
+            foreach(int value in array)
+                total += value;
+
+            float average = (float)total / array.Length;
+            Console.WriteLine($"The average of all the array values is {average}");
         }
     }
 }
