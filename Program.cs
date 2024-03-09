@@ -316,61 +316,73 @@ namespace dotnetcore
 
         static void Prototype()
         {
+            const int minNumber = 0;
+            const int maxNumber = 100;
+
             bool playAgain = true;
             while (playAgain)
             {
-                Console.WriteLine("User1, please enter a number between 0 and 100.");
-                if (int.TryParse(Console.ReadLine(), out int result))
-                {
-                    if (result >= 0 && result <= 100)
-                    {
-                        Console.WriteLine($"You entered {result}");
-                        Console.Clear();
-                        GuessNumber(result);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid response. Your number was not between 0 and 100.");
-                        continue;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("You entered an invalid response. Program is exiting.");
-                    playAgain = false;
-                }
+                int userNumber = GetUserNumber(minNumber, maxNumber);
+                if (userNumber == -1) // Error occurred
+                    return;
+                else if (userNumber == -2)
+                    continue;
+
+                Console.WriteLine($"User1 entered {userNumber}");
+                //Console.Clear();
+
+                int guessedNumber = GuessNumber(userNumber);
+                if (guessedNumber == -2)
+                    continue;
+
+                Console.WriteLine($"You guessed right! {guessedNumber} is the number.");
+                Console.Write("Do you want to play again? (Y or N) ");
+                char response = char.ToUpper(Console.ReadKey().KeyChar);
+
+                Console.WriteLine();
+                playAgain = response == 'Y';
             }
         }
 
-        static void GuessNumber(int pilotInput)
+        static int GetUserNumber(int minNumber, int maxNumber)
         {
-            bool isValid = true;
+            Console.WriteLine($"User1, please enter an integer between {minNumber} and {maxNumber}.");
+            if (int.TryParse(Console.ReadLine(), out int result))
+            {
+                if (result >= minNumber && result <= maxNumber)
+                    return result;
+                else
+                {
+                    Console.WriteLine($"Invalid response. Your integer was not between {minNumber} and {maxNumber}.");
+                    return -2; // error, try again
+                }
+            }
+            else
+                Console.WriteLine("You entered an invalid response. Next time please follow the instructions. Program is exiting.");
+
+            return -1;
+        }
+
+        static int GuessNumber(int pilotInput)
+        {
+            //bool isValid = true;
             Console.WriteLine("User2, you need to guess User1's number");
-            while(isValid)
+            while (true)
             {
                 Console.Write("What is your next guess? ");
                 if (int.TryParse(Console.ReadLine(), out int user2Guess))
                 {
                     if (user2Guess < pilotInput)
-                    {
                         Console.WriteLine($"{user2Guess} is too low.");
-                        continue;
-                    }
                     else if (user2Guess > pilotInput)
-                    {
                         Console.WriteLine($"{user2Guess} is too high.");
-                        continue;
-                    }
                     else
-                    {
-                        Console.WriteLine($"You guessed right! {user2Guess} is the number.");
-                        isValid = false;
-                    }
+                        return user2Guess; // guessed correctly
                 }
                 else
                 {
                     Console.WriteLine("You entered an invalid response. Program is restarting.");
-                    isValid = false;
+                    return -2; // error, restart the game
                 }
             }
         }
