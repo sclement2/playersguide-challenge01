@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.Marshalling;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 
 namespace dotnetcore
 {
@@ -16,16 +19,72 @@ namespace dotnetcore
             //DefenseChallenge();
             //WatchTower();
             //RepairClockTower();
-            //BuyInventory();
+            BuyInventory();
             //Prototype();
             //MagicCannon();
             //ArrayChallenge1();
-            ArrayChallenge2();
+            //ArrayChallenge2();
+            //CountToTen();
+            //Count(22);
+            //Count(20, 30);
+
+            /*
+            int resultNumber = AskForNumber("Please enter an integer");
+            if (!(resultNumber == -1))
+                Console.WriteLine(resultNumber);
+            resultNumber = AskForNumberInRange("Please enter a number in the following range", 20, 30);
+            if (!(resultNumber == -1))
+                Console.WriteLine(resultNumber);
+
+            */
         }
 
         static float PythagCalc(float height, float length)
         {
             return length * height / 2.0f;
+        }
+
+        static void Count(int numberToCountTo)
+        {
+            for (int current = 0; current <= numberToCountTo; current++)
+                Console.WriteLine(current);
+        }
+
+        static void Count(int startingNumber, int numberToCountTo)
+        {
+            for (int current = startingNumber; current <= numberToCountTo; current++)
+                Console.WriteLine(current);
+        }
+
+        static int AskForNumber(string promptText)
+        {
+            Console.Write($"{promptText}: ");
+            if (int.TryParse(Console.ReadLine(), out int result))
+            {
+                return result;
+            }
+            Console.WriteLine("You did not enter an integer.");
+            return -1;
+        }
+        
+        static int AskForNumberInRange(string promptText, int minNumber, int maxNumber)
+        {
+            while (true)
+            {
+                Console.Write($"{promptText}: Min = {minNumber} - Max = {maxNumber}: ");
+                if (int.TryParse(Console.ReadLine(), out int result))
+                {
+                    if (result >= minNumber && result <= maxNumber)
+                        return result;
+                    else
+                    {
+                        Console.WriteLine("Sorry, Your response was not valid. Let's try this again.");
+                        continue;
+                    }
+                }
+                Console.WriteLine("You did not enter an integer.");
+                return -1;
+            }
         }
 
         static void ChallengeFarmer()
@@ -72,16 +131,20 @@ namespace dotnetcore
 
         static void ChallengeDuckbear()
         {
-            Console.WriteLine("How many eggs were gathered today?");
-            int eggCount = int.Parse(Console.ReadLine());
-            int remainingEggs = eggCount % 4;
-            if (remainingEggs == 0)
+            //Console.WriteLine("How many eggs were gathered today?");
+            //int eggCount = int.Parse(Console.ReadLine());
+            int eggCount = AskForNumber("How many eggs were gathered today");
+            if (!(eggCount == -1))
             {
-                Console.WriteLine($"The number of eggs each sister receives: {eggCount / 4}.\nThe duckbear does not receive any eggs. Sorry duckbear.");
-            }
-            else
-            {
-                Console.WriteLine($"The number of eggs each sister receives: {(eggCount - remainingEggs) / 4}.\nThe number of eggs the duckbear receives: {remainingEggs}");
+                int remainingEggs = eggCount % 4;
+                if (remainingEggs == 0)
+                {
+                    Console.WriteLine($"The number of eggs each sister receives: {eggCount / 4}.\nThe duckbear does not receive any eggs. Sorry duckbear.");
+                }
+                else
+                {
+                    Console.WriteLine($"The number of eggs each sister receives: {(eggCount - remainingEggs) / 4}.\nThe number of eggs the duckbear receives: {remainingEggs}");
+                }
             }
         }
 
@@ -192,13 +255,21 @@ namespace dotnetcore
 
             while (isValid)
             {
-                Console.Write("What are the X-coordinates? ");
-                int xCoord = Convert.ToInt32(Console.ReadLine());
-                Console.Write("What are the Y-coordinates? ");
-                int yCoord = Convert.ToInt32(Console.ReadLine());
+                int minXCoord = 1;
+                int maxXCoord = 20;
+                int minYCoord = 1;
+                int maxYCoord = 15;
+
+                Console.WriteLine("What are the X-coordinates?");
+                int xCoord = AskForNumberInRange("Please enter an integer in the following range", minXCoord, maxXCoord);
+                if (xCoord == -1)
+                    return;
+                Console.WriteLine("What are the Y-coordinates?");
+                int yCoord = AskForNumberInRange("Please enter an integer in the following range", minYCoord, maxYCoord);
+                if (yCoord == -1)
+                    return;
 
                 // Find the direction the enemy is coming from
-
                 if (xCoord == 0 && yCoord == 0)
                 {
                     attackDirection = "here";
@@ -265,6 +336,8 @@ namespace dotnetcore
 
         static void BuyInventory()
         {
+            int minNumberItem = 1;
+            int maxNumberItem = 7;
             Console.WriteLine("Welcome to Tortuga's Supply Store.");
             Console.Write("Who do I have the pleasure of talking to? ");
             string name = Console.ReadLine();
@@ -288,9 +361,9 @@ namespace dotnetcore
             Console.WriteLine("5. Machete");
             Console.WriteLine("6. Canoe");
             Console.WriteLine("7. Food Rations");
-            Console.Write("What item do you want to see the price of? Enter the number of the item: ");
+            Console.Write("What item do you want to see the price of? ");
+            int itemNumber = AskForNumberInRange("Enter the number of the item in the following range", minNumberItem, maxNumberItem);
 
-            int itemNumber = int.Parse(Console.ReadLine());
             string response = itemNumber switch
             {
                 1 => $"Rope cost {(Math.Round(10 * discount) <= 0 ? 1 : Math.Round(10 * discount))} gold",
@@ -417,7 +490,8 @@ namespace dotnetcore
                     Console.ForegroundColor = ElectricColor;
                     Console.WriteLine(ElectricText);
                 }
-                else{
+                else
+                {
                     Console.ForegroundColor = NormalColor;
                     Console.WriteLine(NormalText);
                 }
@@ -431,13 +505,13 @@ namespace dotnetcore
             int[] newArray = new int[originalArray.Length];
 
             Console.WriteLine($"Please provide {originalArray.Length} integer values.");
-            for (int index = 0; index < originalArray.Length; index++ )
+            for (int index = 0; index < originalArray.Length; index++)
             {
                 Console.Write($"{index + 1}: ");
-                if(int.TryParse(Console.ReadLine(), out int number))
+                if (int.TryParse(Console.ReadLine(), out int number))
                 {
                     originalArray[index] = number;
-                }    
+                }
                 else
                 {
                     Console.WriteLine("Invalid entry. Exiting program.");
@@ -451,38 +525,38 @@ namespace dotnetcore
                 Console.WriteLine(originalArray[index]);
             }
 
-             Console.WriteLine("Copying your original array into a new array...");
-             for  (int index = 0; index < originalArray.Length; index++)
-             {
+            Console.WriteLine("Copying your original array into a new array...");
+            for (int index = 0; index < originalArray.Length; index++)
+            {
                 newArray[index] = originalArray[index];
-             }
+            }
 
-             Console.WriteLine("Here's the contents of both arrays...");
-             for (int index = 0; index < originalArray.Length; index++)
-             {
+            Console.WriteLine("Here's the contents of both arrays...");
+            for (int index = 0; index < originalArray.Length; index++)
+            {
                 Console.Write($"({index + 1}) Original array value: {originalArray[index]} - ");
                 Console.Write($"New array value: {newArray[index]}\n");
-             }
+            }
         }
 
         static void ArrayChallenge2()
         {
-            int[] array = new int[] {4, 51, -7, 13, -99, 15, -8, 45, 90};
+            int[] array = new int[] { 4, 51, -7, 13, -99, 15, -8, 45, 90 };
 
             Console.Write("Given the following array: { ");
             for (int index = 0; index < array.Length; index++)
             {
-                if(index < array.Length - 1)
+                if (index < array.Length - 1)
                 {
                     Console.Write($"{array[index]}, ");
                 }
                 else
                 {
-                    Console.Write(array[index] +  " }\n");
+                    Console.Write(array[index] + " }\n");
                 }
             }
             int currentSmallest = int.MaxValue;
-            foreach(int value in array)
+            foreach (int value in array)
             {
                 if (value < currentSmallest)
                     currentSmallest = value;
@@ -491,7 +565,7 @@ namespace dotnetcore
             Console.WriteLine($"Smallest value in the array: {currentSmallest}");
 
             int total = 0;
-            foreach(int value in array)
+            foreach (int value in array)
                 total += value;
 
             float average = (float)total / array.Length;
