@@ -19,7 +19,7 @@ namespace dotnetcore
             //DefenseChallenge();
             //WatchTower();
             //RepairClockTower();
-            BuyInventory();
+            //BuyInventory();
             //Prototype();
             //MagicCannon();
             //ArrayChallenge1();
@@ -27,6 +27,7 @@ namespace dotnetcore
             //CountToTen();
             //Count(22);
             //Count(20, 30);
+            RecursionChallenge();
 
             /*
             int resultNumber = AskForNumber("Please enter an integer");
@@ -39,23 +40,53 @@ namespace dotnetcore
             */
         }
 
+        // Part of Recursion Challenge.
+        static void RecursionChallenge()
+        {
+            // Recursion Challenge. Count down with no loops
+            int minCountToNumber = 1;
+            int maxCountFromNumber = 10;
+            Console.WriteLine("Let's do some counting. We are going to count down from a number you supply to the number " + minCountToNumber);
+            int fromNumber = AskForNumberInRange("Please provide an integer in the following range", minCountToNumber + 1, maxCountFromNumber);
+            if (fromNumber == -1) return;
+            Console.WriteLine(RecursionCount(fromNumber, minCountToNumber));
+        }
+
+        // Part of the Triangle Farmer Challenge.
         static float PythagCalc(float height, float length)
         {
             return length * height / 2.0f;
         }
 
+        // Part of Overload a Method Example
         static void Count(int numberToCountTo)
         {
             for (int current = 0; current <= numberToCountTo; current++)
                 Console.WriteLine(current);
         }
 
+        // Part of Overload a Method Example
         static void Count(int startingNumber, int numberToCountTo)
         {
             for (int current = startingNumber; current <= numberToCountTo; current++)
                 Console.WriteLine(current);
         }
 
+        // Part of Recursion Challenge.
+        static int RecursionCount(int fromNumber, int toNumber)
+        {
+            if (fromNumber == toNumber) return toNumber;
+            Console.WriteLine(fromNumber);
+            return RecursionCount(fromNumber - 1, toNumber);
+        }
+
+        // Part of Taking a Number Challenge
+        /// <summary>
+        /// Enable a user to specify a (integer) number. User supplies a text prompt that informs the user what input is required.
+        /// Simple error checking used. If method returns from an unacceptable response a -1 is returned and the calling program can use this value to deal with the unacceptable response.
+        /// </summary>
+        /// <param name="promptText"></param>
+        /// <returns>Integer number or an error value</returns>
         static int AskForNumber(string promptText)
         {
             Console.Write($"{promptText}: ");
@@ -66,7 +97,16 @@ namespace dotnetcore
             Console.WriteLine("You did not enter an integer.");
             return -1;
         }
-        
+
+        // Part of Taking a Number Challenge
+        /// <summary>
+        /// Enable a user to specify a (integer) number in a specified range. User supplies a text prompt that asks the user for the number. Currently the explanation of what the number is for must reside in the calling program.
+        /// Simple error checking used. Method will keep prompting for an integer in the acceptable range. If method returns from an unacceptable response (e.g. a float) a -1 is returned and the calling program can use this value to deal with the unacceptable response.
+        /// </summary>
+        /// <param name="promptText"></param>
+        /// <param name="minNumber"></param>
+        /// <param name="maxNumber"></param>
+        /// <returns>Integer number in a specified range or an error value</returns>
         static int AskForNumberInRange(string promptText, int minNumber, int maxNumber)
         {
             while (true)
@@ -87,6 +127,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Triangle Farmer Challenge.
         static void ChallengeFarmer()
         {
             bool isValid = true;
@@ -129,6 +170,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Four Sisters and the Duckbear Challenge.
         static void ChallengeDuckbear()
         {
             //Console.WriteLine("How many eggs were gathered today?");
@@ -148,6 +190,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Four Sisters and the Duckbear Challenge.
         static void DuckbearMore()
         {
             int count = 0;
@@ -173,6 +216,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Dominion of Kings Challenge.
         static void KingChallenge()
         {
             bool isValid = true;
@@ -209,6 +253,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Defense of Consolas Challenge.
         static void DefenseChallenge()
         {
             bool isValid = true;
@@ -248,6 +293,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Watchtower Challenge.
         static void WatchTower()
         {
             bool isValid = true;
@@ -320,6 +366,7 @@ namespace dotnetcore
             Console.WriteLine("Thanks for defending our city.");
         }
 
+        // Part of the Repairing the Clocktower Challenge.
         static void RepairClockTower()
         {
             Console.WriteLine("Please enter a number.");
@@ -334,6 +381,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Discounted Inventory Challenge. Based on the Buying Inventory Challenge
         static void BuyInventory()
         {
             int minNumberItem = 1;
@@ -381,6 +429,7 @@ namespace dotnetcore
 
         }
 
+        // Part of the Prototype Challenge.
         static void Prototype()
         {
             const int minNumber = 0;
@@ -411,6 +460,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Prototype Challenge.
         static int GetUserNumber(int minNumber, int maxNumber)
         {
             Console.WriteLine($"User1, please enter an integer between {minNumber} and {maxNumber}.");
@@ -430,6 +480,7 @@ namespace dotnetcore
             return -1;
         }
 
+        // Part of the Prototype Challenge.
         static int GuessNumber(int pilotInput)
         {
             //bool isValid = true;
@@ -454,6 +505,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Magic Cannon Challenge.
         static void MagicCannon()
         {
             const int MaxNumber = 100;
@@ -498,6 +550,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Replicator of D'To Challenge.
         static void ArrayChallenge1()
         {
             int originalArrayLength = 5;
@@ -539,6 +592,7 @@ namespace dotnetcore
             }
         }
 
+        // Part of the Laws of Freach Challenge.
         static void ArrayChallenge2()
         {
             int[] array = new int[] { 4, 51, -7, 13, -99, 15, -8, 45, 90 };
